@@ -26,9 +26,9 @@ class SLCSP:
         # Filter by rank and drop duplicates
         self.merged_df = self.merged_df[['state', 'rate_area', 'rate', 'rank', 'zipcode']].loc[self.merged_df['rank']== 2.0].drop_duplicates()
         
-        # Keep only rows where 'zipcode' has one unique combination
-        counts = self.merged_df.groupby('zipcode').apply(lambda x: x[['rate_area', 'rate']].nunique())
-        self.merged_df = self.merged_df[self.merged_df['zipcode'].isin(counts[(counts['rate_area'] == 1) & (counts['rate'] == 1)].index)]
+        # Keep only rows where 'zipcode' is in one rate area
+        counts = self.merged_df.groupby(['zipcode']).apply(lambda x: x[['rate_area', 'state']].nunique())
+        self.merged_df = self.merged_df[self.merged_df['zipcode'].isin(counts[(counts['rate_area'] == 1) & (counts['state'] == 1)].index)]
         
 
     def save_data(self):
