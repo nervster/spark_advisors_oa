@@ -1,0 +1,5 @@
+1. Using Python 3.11, install necessary packages using requirements.txt 
+    - pip3 install -r requirements.txt
+2. Run main script
+    - python3 ./main.py
+3. Result are stored in the output directory
