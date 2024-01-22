@@ -2,4 +2,4 @@
     - pip3 install -r requirements.txt
 2. Run main script
     - python3 ./main.py
-3. Result are stored in the output directory
+3. Result are output to stdout
