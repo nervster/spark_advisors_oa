@@ -7,6 +7,7 @@ class SLCSP:
         self.zips_df = pd.DataFrame()
         self.plans_df = pd.DataFrame()
         self.slcsp_df = pd.DataFrame()
+        self.results_df = pd.DataFrame()
 
     def read_csvs(self):
         self.zips_df = pd.read_csv(DATA_DIRECTORY + 'zips.csv', dtype={'zipcode': str})
