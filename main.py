@@ -1,7 +1,6 @@
 import pandas as pd
 
 DATA_DIRECTORY = './data/'
-OUTPUT_DIRECTORY = './output/'
 
 class SLCSP:
     def __init__(self):
@@ -28,15 +27,21 @@ class SLCSP:
         
         # Keep only rows where 'zipcode' is in one rate area
         counts = self.merged_df.groupby(['zipcode']).apply(lambda x: x[['rate_area', 'state']].nunique())
-        self.merged_df = self.merged_df[self.merged_df['zipcode'].isin(counts[(counts['rate_area'] == 1) & (counts['state'] == 1)].index)]
+        self.results_df = self.merged_df[self.merged_df['zipcode'].isin(counts[(counts['rate_area'] == 1) & (counts['state'] == 1)].index)]
         
 
-    def save_data(self):
-        result_df = pd.merge(self.slcsp_df['zipcode'], self.merged_df, on='zipcode', how='left')
-        result_df[['zipcode', 'rate']].to_csv(OUTPUT_DIRECTORY + 'slcsp.csv', index=False, float_format='%.2f')
+    def merge_slcsp_with_results(self):
+        self.results_df = pd.merge(self.slcsp_df['zipcode'], self.results_df, on='zipcode', how='left')
+        self.results_df = self.results_df[['zipcode', 'rate']]
+
+
+    def output_results(self):
+        print(self.results_df.to_csv(index=False, float_format='%.2f'))
+
 
 if __name__ == "__main__":
     slcsps = SLCSP()
     slcsps.read_csvs()
     slcsps.clean_up()
-    slcsps.save_data()
+    slcsps.merge_slcsp_with_results()
+    slcsps.output_results()
